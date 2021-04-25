@@ -1,0 +1,11 @@
+logs/
+__pycache__/**
+Procfile
+runtime.txt
+.python-version
+*.md
+.git
+.gitignore
+*.md
+.cache
+*.ipynb

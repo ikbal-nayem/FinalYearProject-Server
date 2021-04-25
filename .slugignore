@@ -1,0 +1,4 @@
+Dockerfile
+*.md
+.dockerignore
+.python-version
