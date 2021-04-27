@@ -6,6 +6,5 @@ runtime.txt
 *.md
 .git
 .gitignore
-*.md
 .cache
 *.ipynb
