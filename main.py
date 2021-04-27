@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request
 from Recognition import Recognizer
 from Training import startTraining, current_status
@@ -43,4 +44,5 @@ def training_status():
     return(current_status())
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0")
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
