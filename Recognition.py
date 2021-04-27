@@ -29,17 +29,6 @@ class Recognizer():
             } for face in faces]
 
 
-    def recognize_cv2(self, img_array):
-        img = Image.fromarray(img_array)
-        img = self.preprocess(img)
-        faces = self.face_recogniser(img)
-        faces_data = [{
-                        'top_prediction': face['top_prediction'],
-                        'bounding_box': face['bb']
-                    } for face in faces]
-        return {"faces": faces_data}
-
-
     def applyWithURL(self, img_url):
         image = Image.open(urlopen(img_url))
         faces = self.recognize(image)
