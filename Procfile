@@ -1,3 +1,3 @@
-# web: gunicorn main:app -p 8000
+web: gunicorn main:app
 
-web: python main.py
+# web: python main.py

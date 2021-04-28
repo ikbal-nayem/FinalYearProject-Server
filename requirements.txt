@@ -11,3 +11,4 @@ scikit_learn==0.21.3
 scikit-image
 Werkzeug==0.15.2
 Pyrebase4==4.4.3
+gunicorn
