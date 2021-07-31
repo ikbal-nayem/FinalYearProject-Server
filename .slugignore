@@ -1,7 +1,0 @@
-model/**
-datasets/**
-Dockerfile
-*.md
-.dockerignore
-.python-version
-.gitignore
