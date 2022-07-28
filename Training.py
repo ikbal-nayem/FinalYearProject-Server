@@ -6,9 +6,11 @@ from torchvision import transforms, datasets
 from sklearn.linear_model import LogisticRegression
 from sklearn import metrics
 from face_recognition import preprocessing, FaceFeaturesExtractor, FaceRecogniser
+from CONF import PRETRAINED_MODEL_PATH
 
-MODEL_DIR_PATH = 'model_test'
-DATASET_PATH = 'datasets'
+# MODEL_DIR_PATH = 'model'
+DATASET_PATH = 'dataset'
+
 trning_status = {
     'total_person': 0,
     'total_image': 0,
@@ -73,11 +75,12 @@ def startTraining():
     target_names = map(lambda i: i[1], sorted(idx_to_class.items(), key=lambda i: i[0]))
     print(metrics.classification_report(labels, clf.predict(embeddings), target_names=list(target_names)))
 
-    if not os.path.isdir(MODEL_DIR_PATH):
-        os.mkdir(MODEL_DIR_PATH)
-    model_path = os.path.join('model', 'face_recogniser.pkl')
+    if not os.path.isdir(PRETRAINED_MODEL_PATH.split('/')[0]):
+        os.mkdir(PRETRAINED_MODEL_PATH.split('/')[0])
+    # model_path = os.path.join(PRETRAINED_MODEL_PATH, 'pretrainedModel.pkl')
     trning_status['current_traning'] = ""
-    joblib.dump(FaceRecogniser(features_extractor, clf, idx_to_class), model_path)
+    joblib.dump(FaceRecogniser(features_extractor, clf,
+                idx_to_class), PRETRAINED_MODEL_PATH)
 
 
 if __name__ == '__main__':

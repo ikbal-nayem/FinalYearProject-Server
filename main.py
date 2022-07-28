@@ -24,7 +24,7 @@ def recognition():
         else:
             return({'success': False, 'message': 'Request data should be in JSON format'})
     else:
-        return("Get request in recognizer")
+        return("Recognition server is running")
 
 
 @app.route('/train', methods=['GET'])

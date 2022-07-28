@@ -1,14 +1,13 @@
 -f https://download.pytorch.org/whl/torch_stable.html
 
-facenet_pytorch==0.1.0
-torch==1.2.0+cpu
-torchvision==0.4.0+cpu
-numpy==1.16.5
-Pillow==6.1.0
-Flask==1.1.1
-joblib==0.13.2
-scikit_learn==0.21.3
-scikit-image
-Werkzeug==0.15.2
-Pyrebase4==4.4.3
-gunicorn
+facenet_pytorch==2.5.2
+torch==1.8.1+cpu
+torchvision==0.9.1+cpu
+numpy
+Pillow
+Flask
+joblib
+scikit_learn==1.1.1
+scikit-image==0.19.3
+Werkzeug
+Pyrebase4==4.5.0
