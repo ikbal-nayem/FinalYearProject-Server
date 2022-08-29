@@ -9,6 +9,10 @@ firebaseConfig = {
   "measurementId": "G-1XT0ERZ6SH"
 }
 
+db_config = {
+    "db_name": "residence_security"
+}
+
 store_token = "35c53060-2ce3-458c-b13e-9e776b74115d"
 
 PRETRAINED_MODEL_PATH = "model/pretrainedModel.pkl"

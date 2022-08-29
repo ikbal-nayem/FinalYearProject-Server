@@ -1,3 +1,3 @@
 # Smart home security server script
 
-python version ```3.8.9```
+python --version ```3.10.4```
