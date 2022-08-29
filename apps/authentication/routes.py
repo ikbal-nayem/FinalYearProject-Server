@@ -46,7 +46,7 @@ def login():
     if not current_user.is_authenticated:
         return render_template('accounts/login.html',
                                form=login_form)
-    return redirect(url_for('home_blueprint.index'))
+    return redirect(url_for('home_blueprint.home'))
 
 
 @blueprint.route('/register', methods=['GET', 'POST'])
@@ -61,7 +61,7 @@ def register():
         user = Users.query.filter_by(username=username).first()
         if user:
             return render_template('accounts/register.html',
-                                   msg='Username already registered',
+                                   msg='Username already exists.',
                                    success=False,
                                    form=create_account_form)
 
@@ -78,10 +78,11 @@ def register():
         db.session.add(user)
         db.session.commit()
 
-        return render_template('accounts/register.html',
-                               msg='User created please <a href="/login">login</a>',
-                               success=True,
-                               form=create_account_form)
+        return redirect(url_for('authentication_blueprint.login'))
+        # return render_template('accounts/register.html',
+        #                        msg='User created please <a href="/login">login</a>',
+        #                        success=True,
+        #                        form=create_account_form)
 
     else:
         return render_template('accounts/register.html', form=create_account_form)

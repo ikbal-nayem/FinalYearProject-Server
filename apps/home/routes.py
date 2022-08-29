@@ -10,6 +10,12 @@ def index():
     return render_template('home/index.html', segment='index')
 
 
+@blueprint.route('/home')
+@login_required
+def home():
+    return render_template('home/dashboard.html', segment='home')
+
+
 @blueprint.route('/<template>')
 @login_required
 def route_template(template):
@@ -34,15 +40,10 @@ def route_template(template):
 
 # Helper - Extract current page name from request
 def get_segment(request):
-
     try:
-
         segment = request.path.split('/')[-1]
-
         if segment == '':
             segment = 'index'
-
         return segment
-
     except:
         return None
