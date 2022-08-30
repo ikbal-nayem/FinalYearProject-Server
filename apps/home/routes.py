@@ -16,6 +16,12 @@ def home():
     return render_template('home/dashboard.html', segment='home')
 
 
+@blueprint.route('/members')
+@login_required
+def members():
+    return render_template('home/dashboard.html', segment='members')
+
+
 @blueprint.route('/<template>')
 @login_required
 def route_template(template):
