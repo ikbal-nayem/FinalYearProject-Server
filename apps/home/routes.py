@@ -2,6 +2,10 @@ from apps.home import blueprint
 from flask import render_template, request
 from flask_login import login_required
 from jinja2 import TemplateNotFound
+from apps import db
+from .forms import MemberInputForm
+from .models import Members
+from .util import saveDataset
 
 
 @blueprint.route('/index')
@@ -19,7 +23,24 @@ def home():
 @blueprint.route('/members')
 @login_required
 def members():
-    return render_template('home/dashboard.html', segment='members')
+    return render_template('home/members.html', segment='members')
+
+
+@blueprint.route('/member-form', methods=['GET', 'POST'])
+@login_required
+def memberForm():
+    member_inputs = MemberInputForm(request.form)
+    if request.method == "POST":
+        if request.files.get('dataset'):
+            m = Members(**request.form)
+            db.session.add(m)
+            db.session.commit()
+            saveDataset(request, m.id)
+            return render_template('home/member-form.html', success=True, msg="Member information has been saved successfully.", form=member_inputs)
+        else:
+            return render_template('home/member-form.html', success=False, msg="Please provide dataset", form=member_inputs)
+    else:
+        return render_template('home/member-form.html', form=member_inputs)
 
 
 @blueprint.route('/<template>')

@@ -79,10 +79,6 @@ def register():
         db.session.commit()
 
         return redirect(url_for('authentication_blueprint.login'))
-        # return render_template('accounts/register.html',
-        #                        msg='User created please <a href="/login">login</a>',
-        #                        success=True,
-        #                        form=create_account_form)
 
     else:
         return render_template('accounts/register.html', form=create_account_form)
