@@ -11,41 +11,48 @@
         <div class="card-header">
             <div class="row align-items-center">
                 <div class="col">
-                    <h2 class="fs-5 fw-bold mb-0">Home members</h2>
+                    <h2 class="fs-5 fw-bold mb-0">Total members ({{members_list|count}})</h2>
                 </div>
                 <div class="col text-end">
                     <a href="/member-form" class="btn btn-sm btn-primary">Add new member</a>
                 </div>
             </div>
         </div>
+        
         <div class="table-responsive">
             <table class="table align-items-center table-flush">
                 <thead class="thead-light">
                 <tr>
                     <th class="border-bottom" scope="col">Name</th>
-                    <th class="border-bottom" scope="col">Total entry</th>
-                    <th class="border-bottom" scope="col">Total dataset</th>
+                    <th class="border-bottom" scope="col">Gender</th>
+                    <th class="border-bottom" scope="col">Total datasets</th>
+                    <th class="border-bottom" scope="col">ID</th>
                     <th class="border-bottom" scope="col"></th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <th class="text-gray-900" scope="row">
-                        Ikbal Nayem
-                    </th>
-                    <td class="fw-bolder text-gray-500">
-                        3,225
-                    </td>
-                    <td class="fw-bolder text-gray-500">
-                        42,55%
-                    </td>
-                    <td class="fw-bolder text-gray-500" align="right">
-                        <a href="/member-form" class="btn btn-sm btn-secondary d-inline-flex align-items-center">
-                            <i class="me-2 fas fa-edit"></i>
-                            Edit
-                        </a>
-                    </td>
-                </tr>
+                    {% for member in members_list %}
+                        <tr>
+                            <th class="text-gray-900" scope="row">
+                                {{member.first_name}} {{member.last_name}}
+                            </th>
+                            <td class="text-gray-500">
+                                {{member.gender}}
+                            </td>
+                            <td class="fw-bolder text-gray-500">
+                                {{member.number_of_dataset or 0}}
+                            </td>
+                            <td class="text-gray-500">
+                                {{member.id}}
+                            </td>
+                            <td class="fw-bolder text-gray-500" align="right">
+                                <a href="{{ url_for('home_blueprint.memberForm', member_id=member.id) }}" class="btn btn-sm btn-secondary d-inline-flex align-items-center">
+                                    <i class="me-2 fas fa-edit"></i>
+                                    Edit
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>

@@ -12,6 +12,7 @@ class Members(db.Model):
     first_name = db.Column(db.String(64))
     last_name = db.Column(db.String(64))
     gender = db.Column(db.String(10))
+    number_of_dataset = db.Column(db.Integer())
 
     def __init__(self, **kwargs):
         for property, value in kwargs.items():
