@@ -57,6 +57,11 @@ def memberForm(member_id=None):
         return render_template('home/member-form.html', form=member_inputs, member_id=member_id)
 
 
+@blueprint.route('/settings', methods=['GET', 'POST'])
+@login_required
+def settings():
+    return render_template('home/settings.html', training_status=getTraningStatus())
+
 # Image processing routes
 print('Loading model...')
 recognizer = Recognizer()
@@ -91,7 +96,7 @@ def train():
 
 
 @blueprint.route('/training-status', methods=['GET'])
-def training_status():
+def trainingStatus():
     return getTraningStatus()
 
 
