@@ -15,4 +15,5 @@ db_config = {
 
 store_token = "35c53060-2ce3-458c-b13e-9e776b74115d"
 
-PRETRAINED_MODEL_PATH = "model/pretrainedModel.pkl"
+PRETRAINED_MODEL_PATH = "algo/model/pretrainedModel.pkl"
+DATASET_PATH = "algo/dataset"

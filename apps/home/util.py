@@ -1,9 +1,9 @@
 import os
 import shutil
 import zipfile
+from CONF import DATASET_PATH
 
-dataset_path = os.path.join(os.getcwd(), 'apps/dataset')
-
+dataset_path = os.path.join(os.getcwd(), DATASET_PATH)
 
 def saveDataset(request, id):
     dataset = request.files['dataset']
