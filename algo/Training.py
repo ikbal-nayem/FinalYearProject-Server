@@ -55,6 +55,9 @@ def load_data(dataset_path, features_extractor):
     if not os.path.isdir(dataset_path):
         os.mkdir(dataset_path)
     dataset = datasets.ImageFolder(dataset_path)
+    if len(dataset.classes) < 2:
+        trning_status['is_training'] = False
+        raise ValueError("At least 2 datasets are required for training.")
     trning_status['total_image'] = len(dataset.imgs)
     trning_status['total_person'] = len(dataset.classes)
     embeddings, labels = dataset_to_embeddings(dataset, features_extractor)
@@ -75,7 +78,6 @@ def startTraining():
     embeddings, labels, class_to_idx = load_data(
         DATASET_PATH, features_extractor)
     clf = train(embeddings, labels)
-
     idx_to_class = {v: k for k, v in class_to_idx.items()}
     target_names = map(lambda i: i[1], sorted(
         idx_to_class.items(), key=lambda i: i[0]))
@@ -88,6 +90,7 @@ def startTraining():
                 idx_to_class), PRETRAINED_MODEL_PATH)
     trning_status['current_traning'] = ""
     trning_status['is_training'] = False
+    return "Training successfull."
 
 
 if __name__ == '__main__':

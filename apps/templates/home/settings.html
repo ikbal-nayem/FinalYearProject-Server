@@ -109,9 +109,11 @@
             type: 'GET',
             success: function(response){
                 $('#start_training').removeClass('disabled').text("Train again")
+                alert(response?.message)
             },
             error: function(error){
-                alert("Something went wrong while traning your data.")
+                alert("Something went wrong while traning your dataset.")
+                $('#start_training').removeClass('disabled').text("Train dataset")
             }
         });
     });

@@ -88,11 +88,11 @@ def recognition():
 def train():
     traning_status = getTraningStatus()
     if not traning_status.get('is_training'):
-        startTraining()
+        training_res = startTraining()
         recognizer.loadModel()
     else:
         return traning_status
-    return ({'success': True, 'message': 'Training successful'})
+    return ({'success': True, 'message': training_res if training_res else 'Training successful'})
 
 
 @blueprint.route('/training-status', methods=['GET'])
