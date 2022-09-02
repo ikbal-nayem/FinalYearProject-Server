@@ -9,11 +9,10 @@ from .forms import MemberInputForm
 from .service import createMember, getAllMembers, getMember, updateMember, deleteMember
 
 
-@blueprint.route('/home')
 @blueprint.route('/dashboard')
 @login_required
-def home():
-    return render_template('home/dashboard.html', segment='home')
+def dashboard():
+    return render_template('home/dashboard.html', segment='dashboard')
 
 
 @blueprint.route('/members')
@@ -60,7 +59,8 @@ def memberForm(member_id=None):
 @blueprint.route('/settings', methods=['GET', 'POST'])
 @login_required
 def settings():
-    return render_template('home/settings.html', training_status=getTraningStatus())
+    return render_template('home/settings.html', training_status=getTraningStatus(), segment='settings')
+
 
 # Image processing routes
 print('Loading model...')
