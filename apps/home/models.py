@@ -1,5 +1,6 @@
 from sqlalchemy_utils import UUIDType
 from apps import db
+import sqlalchemy
 import uuid
 
 
@@ -13,6 +14,8 @@ class Members(db.Model):
     last_name = db.Column(db.String(64))
     gender = db.Column(db.String(10))
     number_of_dataset = db.Column(db.Integer())
+    added_on = db.Column(db.DateTime(timezone=True),
+                         default=sqlalchemy.sql.func.now())
 
     def __init__(self, **kwargs):
         for property, value in kwargs.items():

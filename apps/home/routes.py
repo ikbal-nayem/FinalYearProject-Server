@@ -71,6 +71,7 @@ recognizer = Recognizer()
 def recognition():
     if request.method == "POST":
         if request.is_json:
+            print('JSON')
             url = request.get_json().get('url', False)
             faces = recognizer.applyWithURL(url) if url else {
                 'success': False, 'message': "Image url was not provid into 'url'"}
@@ -79,6 +80,7 @@ def recognition():
             img = request.files.get('image', False)
             faces = recognizer.applyWithImg(img) if img else {
                 'success': False, 'message': "Image file wasn't provided into 'image'"}
+            print(faces)
             return (faces)
         return ({'success': False, 'message': 'Request data should be in JSON format'})
     return ({"success": True, "message": "Recognition server is running...", "has_trained": recognizer.has_trained})
