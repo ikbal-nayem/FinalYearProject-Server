@@ -2,9 +2,9 @@ from apps.home import blueprint
 import sqlalchemy
 from flask import render_template, request, redirect, url_for
 from flask_login import login_required
-from jinja2 import TemplateNotFound
-from algo.Recognition import Recognizer
+# from jinja2 import TemplateNotFound
 from algo.Training import startTraining, getTraningStatus
+from .recognition_service import checkRequestImage, reloadModel, isModelTrained
 from .forms import MemberInputForm
 from .service import createMember, getAllMembers, getMember, updateMember, deleteMember
 
@@ -63,27 +63,23 @@ def settings():
 
 
 # Image processing routes
-print('Loading model...')
-recognizer = Recognizer()
-
 
 @blueprint.route('/recognize', methods=['GET', 'POST'])
 def recognition():
     if request.method == "POST":
-        if request.is_json:
-            print('JSON')
-            url = request.get_json().get('url', False)
-            faces = recognizer.applyWithURL(url) if url else {
-                'success': False, 'message': "Image url was not provid into 'url'"}
-            return (faces)
-        elif request.files:
-            img = request.files.get('image', False)
-            faces = recognizer.applyWithImg(img) if img else {
-                'success': False, 'message': "Image file wasn't provided into 'image'"}
-            print(faces)
-            return (faces)
-        return ({'success': False, 'message': 'Request data should be in JSON format'})
-    return ({"success": True, "message": "Recognition server is running...", "has_trained": recognizer.has_trained})
+        return checkRequestImage(request)
+        # if request.is_json:
+        #     url = request.get_json().get('url', False)
+        #     faces = recognizer.applyWithURL(url) if url else {
+        #         'success': False, 'message': "Image url was not provided into 'url'"}
+        #     return (faces)
+        # elif request.files:
+        #     img = request.files.get('image', False)
+        #     faces = recognizer.applyWithImg(img) if img else {
+        #         'success': False, 'message': "Image file wasn't provided into 'image'"}
+        #     return (faces)
+        # return ({'success': False, 'message': "Please provide a JSON with image URL on 'url' or direct image file on 'image' parameter"})
+    return ({"success": True, "message": "Recognition server is running...", "has_trained": isModelTrained()})
 
 
 @blueprint.route('/train', methods=['GET'])
@@ -91,10 +87,9 @@ def train():
     traning_status = getTraningStatus()
     if not traning_status.get('is_training'):
         training_res = startTraining()
-        recognizer.loadModel()
-    else:
-        return traning_status
-    return ({'success': True, 'message': training_res if training_res else 'Training successful'})
+        reloadModel()
+        return ({'success': True, 'message': training_res if training_res else 'Training successfull'})
+    return traning_status
 
 
 @blueprint.route('/training-status', methods=['GET'])

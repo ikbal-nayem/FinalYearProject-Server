@@ -4,7 +4,7 @@ from urllib.request import urlopen
 from PIL import Image
 from algo.face_recognition.preprocessing import ExifOrientationNormalize
 from CONF import firebaseConfig, store_token, PRETRAINED_MODEL_PATH
-import pyrebase
+# import pyrebase
 
 
 class Recognizer():
@@ -36,13 +36,9 @@ class Recognizer():
     def applyWithURL(self, img_url):
         if self.has_trained:
             image = Image.open(urlopen(img_url))
-            faces = self.recognize(image)
-            return {"success": True, "faces": faces}
-        return {"success": False, "message": "Data is not trained yet."}
+            return self.recognize(image)
 
     def applyWithImg(self, img):
         if self.has_trained:
             image = Image.open(img)
-            faces = self.recognize(image)
-            return {"success": True, "faces": faces}
-        return {"success": False, "message": "Data is not trained yet."}
+            return self.recognize(image)

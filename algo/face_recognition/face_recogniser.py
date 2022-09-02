@@ -1,10 +1,10 @@
 def top_prediction(idx_to_class, probs):
     top_label = probs.argmax()
-    return {"label": idx_to_class[top_label], "confidence": probs[top_label]}
+    return {"label": idx_to_class[top_label], "confidence": round(probs[top_label]*100)}
 
 
 def to_predictions(idx_to_class, probs):
-    return [{"label": idx_to_class[i], "confidence": prob} for i, prob in enumerate(probs)]
+    return [{"label": idx_to_class[i], "confidence": round(prob*100)} for i, prob in enumerate(probs)]
 
 
 class FaceRecogniser:
