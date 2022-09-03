@@ -1,6 +1,7 @@
 from sqlalchemy_utils import UUIDType
 from apps import db
 import sqlalchemy
+from sqlalchemy.orm import backref
 import uuid
 
 
@@ -16,17 +17,34 @@ class Members(db.Model):
     number_of_dataset = db.Column(db.Integer())
     added_on = db.Column(db.DateTime(timezone=True),
                          default=sqlalchemy.sql.func.now())
+    user_id = db.Column(db.Integer, db.ForeignKey('Users.id'))
+    user = db.relationship("Users", backref=backref("user", uselist=False))
 
     def __init__(self, **kwargs):
         for property, value in kwargs.items():
-            # depending on whether value is an iterable or not, we must
-            # unpack it's value (when **kwargs is request.form, some values
-            # will be a 1-element list)
             if hasattr(value, '__iter__') and not isinstance(value, str):
-                # the ,= unpack of a singleton fails PEP8 (travis flake8 test)
                 value = value[0]
-
             setattr(self, property, value)
 
     def __repr__(self):
         return f"{str(self.first_name)} {str(self.last_name)}"
+
+
+class Configuration(db.Model):
+    __tablename__ = 'Configuration'
+
+    id = db.Column(db.Integer, primary_key=True)
+    rpi_ip = db.Column(db.String(64))
+    rpi_username = db.Column(db.String(64))
+    rpi_password = db.Column(db.String(64))
+    user_id = db.Column(db.Integer, db.ForeignKey('Users.id'))
+    user = db.relationship("Users", backref=backref("Users", uselist=False))
+
+    def __init__(self, **kwargs):
+        for property, value in kwargs.items():
+            if hasattr(value, '__iter__') and not isinstance(value, str):
+                value = value[0]
+            setattr(self, property, value)
+
+    def __repr__(self):
+        return f"{str(self.rpi_ip)} {str(self.rpi_username)}"

@@ -34,3 +34,8 @@ network={
  id_str="laptop"
 }
 ```
+
+## Migrate DB table after change table column
+```flask db init```
+```flask db migrate -m "Adding column x."```
+```flask db upgrade```

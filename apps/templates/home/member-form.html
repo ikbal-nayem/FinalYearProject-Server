@@ -28,25 +28,25 @@
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <div>
-                        <label for="first_name">First Name</label>
+                        <label for="first_name">First Name <span class="text-danger">*</span></label>
                         {{ form.first_name(placeholder="First name", class="form-control") }}
                     </div>
                 </div>
                 <div class="col-md-6 mb-3">
                     <div>
-                        <label for="last_name">Last Name</label>
+                        <label for="last_name">Last Name <span class="text-danger">*</span></label>
                         {{ form.last_name(placeholder="Last name", class="form-control") }}
                     </div>
                 </div>
             </div>
             <div class="row align-items-center">
                 <div class="col-md-6 mb-3">
-                    <label for="gender">Gender</label>
+                    <label for="gender">Gender <span class="text-danger">*</span></label>
                     {{ form.gender(placeholder="Gender select", class="form-control") }}
                 </div>
             </div>
             <div>
-                <label for="dataset">Dataset</label>
+                <label for="dataset">Dataset <span class="text-danger">*</span></label>
                 {{ form.dataset(accept=".zip", class="form-control", required=false if member_id else true) }}
             </div>
             <div class="mt-4">

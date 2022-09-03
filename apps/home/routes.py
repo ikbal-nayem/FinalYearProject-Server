@@ -56,6 +56,12 @@ def memberForm(member_id=None):
         return render_template('home/member-form.html', form=member_inputs, member_id=member_id)
 
 
+@blueprint.route('/profile', methods=['GET', 'POST'])
+@login_required
+def profile():
+    return render_template('home/profile.html', training_status=getTraningStatus(), segment='profile')
+
+
 @blueprint.route('/settings', methods=['GET', 'POST'])
 @login_required
 def settings():

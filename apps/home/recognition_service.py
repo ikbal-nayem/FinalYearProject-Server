@@ -1,4 +1,5 @@
 import json
+import math
 from algo.Recognition import Recognizer
 
 print('Loading model...')
@@ -40,5 +41,18 @@ def checkRequestImage(request):
     faces = recognizer.applyWithImg(img)
 
   if faces:
-    print(faces)
-    return json.dumps(str({"faces": faces}))
+    big_face = findBigFace(faces)
+    print(big_face)
+    return json.dumps(str(big_face))
+  return ({'success': True, 'message': "No face found in the picture"})
+
+
+def findBigFace(faces):
+  res = faces[0]
+  max_dist = 0
+  for face in faces:
+    f_dis = math.dist((round(face['bounding_box']['left']), round(face['bounding_box']['top'])), (round(
+        face['bounding_box']['right']), round(face['bounding_box']['bottom'])))
+    if f_dis > max_dist:
+      res = face
+  return res
