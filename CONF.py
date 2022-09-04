@@ -9,11 +9,9 @@ firebaseConfig = {
   "measurementId": "G-1XT0ERZ6SH"
 }
 
-db_config = {
-    "db_name": "residence_security"
-}
-
 store_token = "35c53060-2ce3-458c-b13e-9e776b74115d"
 
 PRETRAINED_MODEL_PATH = "algo/model/pretrainedModel.pkl"
 DATASET_PATH = "algo/dataset"
+
+MIN_CONFIDENCE_LEVEL = 95

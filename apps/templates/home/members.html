@@ -14,7 +14,10 @@
                     <h2 class="fs-5 fw-bold mb-0">Total members ({{members_list|count}})</h2>
                 </div>
                 <div class="col text-end">
-                    <a href="/member-form" class="btn btn-sm btn-primary">Add new member</a>
+                    <a href="/member-form" class="btn btn-sm btn-primary">
+                        <i class="fas fa-user-plus"></i>
+                        Add member
+                    </a>
                 </div>
             </div>
         </div>
@@ -27,6 +30,7 @@
                     <th class="border-bottom" scope="col">Gender</th>
                     <th class="border-bottom" scope="col">Total datasets</th>
                     <th class="border-bottom" scope="col">ID</th>
+                    <th class="border-bottom" scope="col">Added on</th>
                     <th class="border-bottom" scope="col"></th>
                 </tr>
                 </thead>
@@ -45,8 +49,11 @@
                             <td class="text-gray-500">
                                 {{member.id}}
                             </td>
+                            <td class="text-gray-500">
+                                {{member.added_on}}
+                            </td>
                             <td class="fw-bolder text-gray-500" align="right">
-                                <a href="{{ url_for('home_blueprint.memberForm', member_id=member.id) }}" class="btn btn-sm btn-secondary d-inline-flex align-items-center">
+                                <a href="{{ url_for('home_blueprint.memberForm', member_id=member.id) }}" class="btn btn-sm btn-info d-inline-flex align-items-center">
                                     <i class="me-2 fas fa-edit"></i>
                                     Edit
                                 </a>

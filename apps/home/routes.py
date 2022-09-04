@@ -10,14 +10,16 @@ from .service import (
     createMember,
     getAllMembers,
     getMember, updateMember, deleteMember, updateProfile, getUseSettings,
-    addOrUpdateSettings
+    addOrUpdateSettings,
+    getEntryLog
 )
 
 
 @blueprint.route('/dashboard')
 @login_required
 def dashboard():
-    return render_template('home/dashboard.html', segment='dashboard')
+    log = getEntryLog()
+    return render_template('home/dashboard.html', log=log, segment='dashboard')
 
 
 @blueprint.route('/members')

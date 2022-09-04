@@ -29,13 +29,13 @@
                 <div class="col-md-6 mb-3">
                     <div>
                         <label for="first_name">First Name <span class="text-danger">*</span></label>
-                        {{ form.first_name(placeholder="First name", class="form-control") }}
+                        {{ form.first_name(class="form-control") }}
                     </div>
                 </div>
                 <div class="col-md-6 mb-3">
                     <div>
                         <label for="last_name">Last Name <span class="text-danger">*</span></label>
-                        {{ form.last_name(placeholder="Last name", class="form-control") }}
+                        {{ form.last_name(class="form-control") }}
                     </div>
                 </div>
             </div>
@@ -50,7 +50,7 @@
                 {{ form.dataset(accept=".zip", class="form-control", required=false if member_id else true) }}
             </div>
             <div class="mt-4">
-                <button class="btn btn-gray-800 animate-up-2" type="submit">Save member</button>
+                <button class="btn btn-gray-800 animate-up-2" type="submit"><i class="fas fa-save me-2"></i> Save member</button>
             </div>
         </form>
     </div>

@@ -1,6 +1,11 @@
 import json
 import math
+from apps import db
+from flask_login import current_user
+from CONF import MIN_CONFIDENCE_LEVEL
 from algo.Recognition import Recognizer
+from .models import Members
+from .service import setEntryLog
 
 print('Loading model...')
 recognizer = Recognizer()
@@ -42,17 +47,30 @@ def checkRequestImage(request):
 
   if faces:
     big_face = findBigFace(faces)
-    print(big_face)
-    return json.dumps(str(big_face))
+    if big_face['top_prediction'].get('confidence') >= MIN_CONFIDENCE_LEVEL:
+      # Do something after authentication
+      member = Members.query.filter_by(
+          id=big_face['top_prediction'].get('label')).first()
+      resp = {**big_face, 'isAuthorized': True,
+              "member": member.as_dict() if member else None}
+      setEntryLog(f'{member.first_name} {member.last_name}', 'Auto',
+                  resp['top_prediction'].get('confidence'))
+      return resp
+    return ({**big_face, 'isAuthorized': False})
   return ({'success': True, 'message': "No face found in the picture"})
 
 
+# Finding front face on the given picture (if any)
 def findBigFace(faces):
   res = faces[0]
   max_dist = 0
   for face in faces:
-    f_dis = math.dist((round(face['bounding_box']['left']), round(face['bounding_box']['top'])), (round(
-        face['bounding_box']['right']), round(face['bounding_box']['bottom'])))
+    face['bounding_box']['left'] = round(face['bounding_box']['left'])
+    face['bounding_box']['top'] = round(face['bounding_box']['top'])
+    face['bounding_box']['right'] = round(face['bounding_box']['right'])
+    face['bounding_box']['bottom'] = round(face['bounding_box']['bottom'])
+    f_dis = math.dist((face['bounding_box']['left'], face['bounding_box']['top']), (
+        face['bounding_box']['right'], face['bounding_box']['bottom']))
     if f_dis > max_dist:
       res = face
   return res
