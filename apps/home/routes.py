@@ -6,7 +6,12 @@ from flask_login import login_required
 from algo.Training import startTraining, getTraningStatus
 from .recognition_service import checkRequestImage, reloadModel, isModelTrained
 from .forms import MemberInputForm
-from .service import createMember, getAllMembers, getMember, updateMember, deleteMember
+from .service import (
+    createMember,
+    getAllMembers,
+    getMember, updateMember, deleteMember, updateProfile, getUseSettings,
+    addOrUpdateSettings
+)
 
 
 @blueprint.route('/dashboard')
@@ -59,13 +64,19 @@ def memberForm(member_id=None):
 @blueprint.route('/profile', methods=['GET', 'POST'])
 @login_required
 def profile():
+    if request.method == "POST":
+        updateProfile(request)
     return render_template('home/profile.html', training_status=getTraningStatus(), segment='profile')
 
 
 @blueprint.route('/settings', methods=['GET', 'POST'])
 @login_required
 def settings():
-    return render_template('home/settings.html', training_status=getTraningStatus(), segment='settings')
+    if request.method == "POST":
+        conf = addOrUpdateSettings(request)
+    else:
+        conf = getUseSettings()
+    return render_template('home/settings.html', conf=conf, segment='settings')
 
 
 # Image processing routes
@@ -74,17 +85,6 @@ def settings():
 def recognition():
     if request.method == "POST":
         return checkRequestImage(request)
-        # if request.is_json:
-        #     url = request.get_json().get('url', False)
-        #     faces = recognizer.applyWithURL(url) if url else {
-        #         'success': False, 'message': "Image url was not provided into 'url'"}
-        #     return (faces)
-        # elif request.files:
-        #     img = request.files.get('image', False)
-        #     faces = recognizer.applyWithImg(img) if img else {
-        #         'success': False, 'message': "Image file wasn't provided into 'image'"}
-        #     return (faces)
-        # return ({'success': False, 'message': "Please provide a JSON with image URL on 'url' or direct image file on 'image' parameter"})
     return ({"success": True, "message": "Recognition server is running...", "has_trained": isModelTrained()})
 
 

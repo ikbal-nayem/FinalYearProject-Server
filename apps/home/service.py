@@ -1,10 +1,12 @@
 from apps import db
-from .models import Members
+from flask_login import current_user
+from apps.authentication.models import Users
+from .models import Members, Configuration
 from .util import saveDataset, updateDataset, deleteDataset
 
 
 def getAllMembers():
-  return Members.query.all()
+  return Members.query.filter_by(user_id=current_user.id).all()
 
 
 def getMember(id):
@@ -13,8 +15,8 @@ def getMember(id):
 
 def createMember(request):
   m = Members(**request.form)
+  m.user_id = current_user.id
   db.session.add(m)
-  print(m.id)
   db.session.commit()
   m.number_of_dataset = saveDataset(request, m.id)
   db.session.commit()
@@ -37,3 +39,29 @@ def deleteMember(member_id):
   deleteDataset(member.id)
   db.session.delete(member)
   db.session.commit()
+
+
+def updateProfile(request):
+  user = Users.query.filter_by(id=current_user.id).first()
+  user.email = request.form.get('email')
+  user.m_id = request.form.get('m_id')
+  db.session.commit()
+  return user
+
+
+def getUseSettings():
+  return Configuration.query.filter_by(id=current_user.id).first()
+
+
+def addOrUpdateSettings(request):
+  config = Configuration.query.filter_by(id=current_user.id).first()
+  if not config:
+    config = Configuration(**request.form)
+    config.user_id = current_user.id
+    db.session.add(config)
+  else:
+    config.rpi_ip = request.form.get('rpi_ip')
+    config.rpi_username = request.form.get('rpi_username')
+    config.rpi_password = request.form.get('rpi_password')
+  db.session.commit()
+  return config

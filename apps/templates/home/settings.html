@@ -4,13 +4,6 @@
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}
-<style>
-    .profile-pic-cover {
-        background-repeat: no-repeat !important;
-        background-position: center !important;
-        background-size: cover !important;
-    }
-</style>
 {% endblock stylesheets %}
 
 {% block content %}
@@ -18,61 +11,32 @@
     <div class="row mt-3">
         <div class="col-12 col-xl-8">
             <div class="card card-body border-0 shadow mb-4">
-                <h2 class="h5 mb-4">User information</h2>
-                <form>
+                <h2 class="h5 mb-4">Raspberry Pi configuration</h2>
+                <form method="post">
                     <div class="row">
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-8 mb-3">
                             <div>
-                                <label for="email">Email <span class="text-danger">*</span></label>
-                                <input class="form-control" id="email" type="email" value="{{ current_user.email }}" required>
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <div class="form-group">
-                                <label for="username">Username <span class="text-danger">*</span></label>
-                                <input class="form-control" id="username" value="{{ current_user.username }}" readonly>
-                            </div>
-                        </div>
-                        <div class="col-md-6 mt-3">
-                            <div class="form-group">
-                                <label for="m_id">Messenger ID <span class="text-danger">*</span></label>
-                                <input class="form-control" id="m_id" name="m_id" placeholder="Messenger user id" value="{{ current_user.m_id or '' }}">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-end">
-                        <button class="btn btn-gray-800 mt-2 animate-up-2 w-25" type="submit">Update</button>
-                    </div>
-                </form>
-            </div>
-
-            <div class="card card-body border-1 border-danger shadow">
-                <h2 class="h5 mb-4">Change Password</h2>
-                <form>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <div>
-                                <label for="c_password">Current password <span class="text-danger">*</span></label>
-                                <input class="form-control" id="c_password" type="password" placeholder="Enter your current password" required>
+                                <label for="rpi_ip">IP address <span class="text-danger">*</span></label>
+                                <input class="form-control" id="rpi_ip" name="rpi_ip" value="{{ conf.rpi_ip }}" required>
                             </div>
                         </div>
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-6 mb-3">
-                            <div>
-                                <label for="n_password">New password <span class="text-danger">*</span></label>
-                                <input class="form-control" id="n_password" type="password" placeholder="Enter your new password" required>
+                            <div class="form-group">
+                                <label for="rpi_username">RPi Username <span class="text-danger">*</span></label>
+                                <input class="form-control" id="rpi_username" name="rpi_username" value="{{ conf.rpi_username }}" required>
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <div class="form-group">
-                                <label for="vn_password">Verify new password <span class="text-danger">*</span></label>
-                                <input class="form-control" id="vn_password" type="password" placeholder="Enter your new password" required>
+                                <label for="rpi_password">RPi Password <span class="text-danger">*</span></label>
+                                <input class="form-control" id="rpi_password" name="rpi_password" value="{{ conf.rpi_password or '' }}" required>
                             </div>
                         </div>
                     </div>
                     <div class="d-flex justify-content-end">
-                        <button class="btn btn-danger mt-2 animate-up-2" type="submit">Change</button>
+                        <button class="btn btn-gray-800 mt-2 animate-up-2 w-25" type="submit">Save configuration</button>
                     </div>
                 </form>
             </div>
@@ -81,21 +45,24 @@
         <div class="col-12 col-xl-4">
             <div class="row">
                 <div class="col-12 mb-4">
-                    <div class="card shadow border-0 text-center p-0">
-                        <div class="profile-cover rounded-top profile-pic-cover" data-background="/static/assets/img/profile-cover.png"></div>
+                    <div class="card shadow border-0 p-0">
+                        <img class="card-img-top" src="/static/assets/img/technologies/raspberry-pi-zero-w-raspberry-pi-zero-w.png" alt="Card image cap">
                         <div class="card-body pb-5">
-                            <img src="/static/assets/img/team/profile-picture.jpg" class="avatar-xl rounded-circle mx-auto mt-n7 mb-4" alt="Neil Portrait">
-                            <h4 class="h3">
-                                {{ current_user.username }}
+                            <h4 class="h3 text-center">
+                                Raspberry Pi Zero W
                             </h4>
-                            <p class="text-gray mb-4">
-                                {{ current_user.email }}
+                            <p class="text-gray mb-4" style="white-space:pre-wrap;">
+802.11 b/g/n wireless LAN
+Bluetooth 4.1
+Bluetooth Low Energy (BLE)
+1GHz, single-core CPU
+512MB RAM
+Mini HDMI port and micro USB On-The-Go (OTG) port
+Micro USB power
+HAT-compatible 40-pin header
+Composite video and reset headers
+CSI camera connector
                             </p>
-                            {% if not training_status.is_training %}
-                                <button class="btn btn-sm btn-secondary" id="start_training">Start Training</button>
-                            {% else %}
-                                <button class="btn btn-sm btn-secondary disabled">Training ...</button>
-                            {% endif %}
                         </div>
                       </div>
                 </div>
