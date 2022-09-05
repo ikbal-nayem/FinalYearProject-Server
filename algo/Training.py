@@ -6,7 +6,7 @@ from torchvision import transforms, datasets
 from sklearn.linear_model import LogisticRegression
 from sklearn import metrics
 from algo.face_recognition import preprocessing, FaceFeaturesExtractor, FaceRecogniser
-from CONF import PRETRAINED_MODEL_PATH, DATASET_PATH
+from CONF import PRETRAINED_MODEL_PATH, DATASET_PATH, MODEL_PATH
 
 
 trning_status = {
@@ -85,7 +85,7 @@ def startTraining():
         embeddings), target_names=list(target_names)))
 
     if not os.path.isdir(PRETRAINED_MODEL_PATH.split('/')[-2]):
-        os.mkdir(PRETRAINED_MODEL_PATH.split('/')[-2])
+        os.mkdir(MODEL_PATH)
     joblib.dump(FaceRecogniser(features_extractor, clf,
                 idx_to_class), PRETRAINED_MODEL_PATH)
     trning_status['current_traning'] = ""

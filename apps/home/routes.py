@@ -15,6 +15,9 @@ from .service import (
 )
 
 
+# ToDo:: Make user UUID
+
+
 @blueprint.route('/dashboard')
 @login_required
 def dashboard():
@@ -86,7 +89,10 @@ def settings():
 @blueprint.route('/recognize', methods=['GET', 'POST'])
 def recognition():
     if request.method == "POST":
-        return checkRequestImage(request)
+        if request.form.get('user_id') or (request.get_json() and request.get_json().get('user_id', False)):
+            return checkRequestImage(request)
+        else:
+            return ({"success": True, "message": "user_id was not provided."})
     return ({"success": True, "message": "Recognition server is running...", "has_trained": isModelTrained()})
 
 

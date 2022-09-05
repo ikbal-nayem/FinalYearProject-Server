@@ -91,6 +91,8 @@
                             <p class="text-gray mb-4">
                                 {{ current_user.email }}
                             </p>
+                            <div class="alert alert-success d-none" role="alert" id="success-info"></div>
+                            <div class="alert alert-danger d-none" role="alert" id="danger-info"></div>
                             {% if not training_status.is_training %}
                                 <button class="btn btn-sm btn-secondary" id="start_training"><i class="fas fa-laptop-code"></i> Start Training</button>
                             {% else %}
@@ -115,11 +117,11 @@
             type: 'GET',
             success: function(response){
                 $('#start_training').removeClass('disabled').text("Train again")
-                alert(response?.message)
+                $('#success-info').removeClass('d-none').text(response?.message)
             },
             error: function(error){
-                alert("Something went wrong while traning your dataset.")
                 $('#start_training').removeClass('disabled').text("Train dataset")
+                $('#danger-info').removeClass('d-none').text("Something went wrong while traning your dataset.")
             }
         });
     });

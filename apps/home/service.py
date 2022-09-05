@@ -68,12 +68,12 @@ def addOrUpdateSettings(request):
 
 
 # Setting member entry log
-def setEntryLog(member, access_type, confidance=None):
-  log = EntryLog(member=member, confidance_level=confidance,
+def setEntryLog(user_id, member, access_type, confidance=None):
+  log = EntryLog(user_id=user_id, member=member, confidance_level=confidance,
                  access_type=access_type)
   db.session.add(log)
   db.session.commit()
 
 
 def getEntryLog():
-  return EntryLog.query.all()
+  return EntryLog.query.filter_by(user_id=current_user.id).all()

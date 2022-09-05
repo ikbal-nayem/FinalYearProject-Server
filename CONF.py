@@ -11,7 +11,15 @@ firebaseConfig = {
 
 store_token = "35c53060-2ce3-458c-b13e-9e776b74115d"
 
-PRETRAINED_MODEL_PATH = "algo/model/pretrainedModel.pkl"
+IMAGE_UPLOAD_URL = "https://freeimage.host/api/1/upload"
+IMAGE_UPLOAD_TOKEN = "6d207e02198a847aa98d0a2a901485a5"
+
+# Messenger bot token
+BOT_TOKEN = 'EAAInw1oTKjkBABdXPJpImSled1gukgkjF9HezBsiJGhbT5AaB5V46j6BlBCcDmUZByOZAbpnS1Gf3bwsYbnjMQKXsfyzc2dL5kVCO4XUUpHhAfJNlSZBxrYzImrCqqXR3I3KTU0GdJILpmdZASk2ysXXIIhiRrKD3crzjIlGiwZDZD'
+VERIFY_TOKEN = 'desktopSecurityAlert'
+
+MODEL_PATH = "algo/model"
+PRETRAINED_MODEL_PATH = MODEL_PATH+"/pretrainedModel.pkl"
 DATASET_PATH = "algo/dataset"
 
 MIN_CONFIDENCE_LEVEL = 95

@@ -1,7 +1,8 @@
 import os
+import requests
 import shutil
 import zipfile
-from CONF import DATASET_PATH
+from CONF import DATASET_PATH, IMAGE_UPLOAD_URL, IMAGE_UPLOAD_TOKEN
 
 dataset_path = os.path.join(os.getcwd(), DATASET_PATH)
 
@@ -28,3 +29,9 @@ def deleteDataset(id):
     current_dataset_path = os.path.join(dataset_path, str(id))
     if os.path.isdir(current_dataset_path):
         shutil.rmtree(current_dataset_path)
+
+
+def uploadImage(image):
+    data = {'key': IMAGE_UPLOAD_TOKEN, 'action': 'upload', 'source': image}
+    r = requests.post(IMAGE_UPLOAD_URL, data=data)
+    return r.json()['image']
