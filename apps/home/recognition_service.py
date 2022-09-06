@@ -50,6 +50,7 @@ def checkRequestImage(request):
   elif request.files:
     img = request.files.get('image', False)
     user_id = request.form.get('user_id', False)
+    notify_admin = request.form.get('notify_admin', False)
     if not img:
       # No image file found
       return ({'success': False, 'message': "Image file wasn't provided into 'image'"})
@@ -72,8 +73,8 @@ def checkRequestImage(request):
         threading.Thread(target=sendMessage, args=(
             admin.m_id, image, m_name)).start()  # Sending message
       return resp
-    else:
-      if admin:
+    else:                                     # If authorized member found
+      if admin and notify_admin:
         threading.Thread(target=sendMessage, args=(
             admin.m_id, image)).start()  # Sending message
       return ({**big_face, 'isAuthorized': False})
@@ -115,5 +116,5 @@ def sendMessage(admin_mid, image, m_name=None):
                                               subtitle="Do you know?",
                                               image_url=uploaded_image.get(
                                                   "url"),
-                                              buttons=[{'title': 'Alarm'}, {'title': 'Unlock'}])
+                                              buttons=[{'title': 'Alarm', 'payload': "ALARM"}, {'title': 'Unlock', 'payload': 'UNLOCK'}])
   print(resp)
