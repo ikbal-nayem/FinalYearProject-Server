@@ -74,7 +74,7 @@ def checkRequestImage(request):
             admin.m_id, image, m_name)).start()  # Sending message
       return resp
     else:                                     # If authorized member found
-      if admin and notify_admin:
+      if admin and notify_admin == "True":
         threading.Thread(target=sendMessage, args=(
             admin.m_id, image)).start()  # Sending message
       return ({**big_face, 'isAuthorized': False})
@@ -110,10 +110,10 @@ def sendMessage(admin_mid, image, m_name=None):
                                               subtitle="Authorized member",
                                               image_url=uploaded_image.get(
                                                   "url"),
-                                              buttons=[{'title': 'OK'}])
+                                              buttons=[{'title': 'OK', 'payload': "OK"}])
   else:
-    resp = MessageTemplate(admin_mid).generic(title="Unknown",
-                                              subtitle="Do you know?",
+    resp = MessageTemplate(admin_mid).generic(title="Do you know?",
+                                              subtitle="Unknown person found in your doorstep!",
                                               image_url=uploaded_image.get(
                                                   "url"),
                                               buttons=[{'title': 'Alarm', 'payload': "ALARM"}, {'title': 'Unlock', 'payload': 'UNLOCK'}])

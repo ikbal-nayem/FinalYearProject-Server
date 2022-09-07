@@ -1,9 +1,12 @@
 from apps import db
 from flask_login import current_user
+from subprocess import check_output
 from apps.authentication.models import Users
 from .models import Members, Configuration, EntryLog
 from .util import saveDataset, updateDataset, deleteDataset
 
+
+current_ip = check_output(['hostname', '-I']).decode().strip()
 
 def getAllMembers():
     return Members.query.filter_by(user_id=current_user.id).all()

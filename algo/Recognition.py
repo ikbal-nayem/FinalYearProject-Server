@@ -3,7 +3,7 @@ import joblib
 from urllib.request import urlopen
 from PIL import Image
 from algo.face_recognition.preprocessing import ExifOrientationNormalize
-from CONF import firebaseConfig, store_token, PRETRAINED_MODEL_PATH
+from CONF import PRETRAINED_MODEL_PATH
 # import pyrebase
 
 
