@@ -1,4 +1,6 @@
 from apps import db
+from sqlalchemy import Date, cast
+from datetime import date
 from flask_login import current_user
 from subprocess import check_output
 from apps.authentication.models import Users
@@ -72,11 +74,17 @@ def addOrUpdateSettings(request):
 
 # Setting member entry log
 def setEntryLog(user_id, member, access_type, confidance=None):
-  log = EntryLog(user_id=user_id, member=member, confidance_level=confidance,
-                 access_type=access_type)
-  db.session.add(log)
-  db.session.commit()
+    log = EntryLog(user_id=user_id, member=member, confidance_level=confidance,
+                   access_type=access_type)
+    db.session.add(log)
+    db.session.commit()
 
 
 def getEntryLog():
-  return EntryLog.query.filter_by(user_id=current_user.id).all()
+    entry_log = EntryLog.query.filter_by(
+        user_id=current_user.id).order_by(EntryLog.entry_time.desc())
+    total_auto = entry_log.filter(
+        EntryLog.access_type == 'Auto', cast(EntryLog.entry_time, Date) == date.today()).count()
+    total_command = entry_log.filter(
+        EntryLog.access_type == 'Command', cast(EntryLog.entry_time, Date) == date.today()).count()
+    return entry_log.all(), total_auto, total_command

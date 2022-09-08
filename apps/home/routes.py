@@ -21,8 +21,8 @@ from .service import (
 @blueprint.route('/dashboard')
 @login_required
 def dashboard():
-    log = getEntryLog()
-    return render_template('home/dashboard.html', log=log, segment='dashboard')
+    log, total_auto, total_command = getEntryLog()
+    return render_template('home/dashboard.html', log=log, total_auto=total_auto, total_command=total_command, segment='dashboard')
 
 
 @blueprint.route('/members')
