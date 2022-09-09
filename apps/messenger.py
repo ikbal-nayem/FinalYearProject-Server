@@ -7,7 +7,6 @@ class MessageTemplate():
         self.sender_id = sender_id
         self.send_url = "https://graph.facebook.com/v14.0/me/messages?access_token={}".format(
             os.getenv('BOT_TOKEN'))
-        # self._getUserInfo()
 
     def send(self, msg):
         resp = requests.post(self.send_url, json=msg).json()
