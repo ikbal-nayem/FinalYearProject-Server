@@ -1,7 +1,6 @@
 from sqlalchemy_utils import UUIDType
+from datetime import datetime
 from apps import db
-import sqlalchemy
-from sqlalchemy.orm import backref
 import uuid
 
 
@@ -14,8 +13,7 @@ class Members(db.Model):
     last_name = db.Column(db.String(64))
     gender = db.Column(db.String(10))
     number_of_dataset = db.Column(db.Integer())
-    added_on = db.Column(db.DateTime(timezone=True),
-                         default=sqlalchemy.sql.func.now())
+    added_on = db.Column(db.DateTime(timezone=True), default=datetime.now())
     user_id = db.Column(db.Integer, db.ForeignKey('Users.id'))
 
     def __init__(self, **kwargs):
@@ -54,8 +52,7 @@ class EntryLog(db.Model):
     __tablename__ = 'EntryLog'
 
     id = db.Column(db.Integer, primary_key=True)
-    entry_time = db.Column(db.DateTime(timezone=True),
-                           default=sqlalchemy.sql.func.now())
+    entry_time = db.Column(db.DateTime(timezone=True), default=datetime.now())
     confidance_level = db.Column(db.Float)
     member = db.Column(db.String(50))
     access_type = db.Column(db.String(10))

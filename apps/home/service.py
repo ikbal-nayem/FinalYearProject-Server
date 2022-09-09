@@ -1,5 +1,5 @@
 from apps import db
-from sqlalchemy import Date, cast
+from sqlalchemy import func
 from datetime import date
 from flask_login import current_user
 from subprocess import check_output
@@ -83,8 +83,9 @@ def setEntryLog(user_id, member, access_type, confidance=None):
 def getEntryLog():
     entry_log = EntryLog.query.filter_by(
         user_id=current_user.id).order_by(EntryLog.entry_time.desc())
-    total_auto = entry_log.filter(
-        EntryLog.access_type == 'Auto', cast(EntryLog.entry_time, Date) == date.today()).count()
-    total_command = entry_log.filter(
-        EntryLog.access_type == 'Command', cast(EntryLog.entry_time, Date) == date.today()).count()
+    total_auto = entry_log.filter(EntryLog.access_type == 'Auto', func.date(
+        EntryLog.entry_time) == date.today()).all()
+    total_command = entry_log.filter(EntryLog.access_type == 'Command', func.date(
+        EntryLog.entry_time) == date.today()).all()
+
     return entry_log.all(), total_auto, total_command

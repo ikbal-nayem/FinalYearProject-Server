@@ -42,10 +42,10 @@
                                     <th class="text-gray-900" scope="row">
                                         {{ l.member }}
                                     </th>
-                                    <td class="fw-bolder text-gray-500">
+                                    <td class="text-gray-500">
                                         {{ l.confidance_level }}
                                     </td>
-                                    <td class="fw-bolder text-gray-500">
+                                    <td class="text-gray-500">
                                         {% if l.access_type == "Auto" %}
                                         <i class="fas fa-image me-3 text-success"></i>
                                         {% else %}
@@ -54,7 +54,7 @@
                                         {{ l.access_type }}
                                     </td>
                                     <td class="fw-bolder text-gray-500">
-                                        {{ l.entry_time}}
+                                        {{ l.entry_time.strftime('%Y-%m-%d %H:%M') }}
                                     </td>
                                 </tr>
                                 {% endfor %}
@@ -80,7 +80,7 @@
                             </div>
                             <div class="d-block">
                                 <label class="mb-0">Auto</label>
-                                <h4 class="mb-0">{{total_auto}}</h4>
+                                <h4 class="mb-0">{{ total_auto|length }}</h4>
                             </div>
                         </div>
                         <div class="d-flex align-items-center pt-3">
@@ -89,7 +89,7 @@
                             </div>
                             <div class="d-block">
                                 <label class="mb-0">By command</label>
-                                <h4 class="mb-0">{{total_command}}</h4>
+                                <h4 class="mb-0">{{ total_command|length }}</h4>
                             </div>
                         </div>
                     </div>
