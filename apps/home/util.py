@@ -35,3 +35,26 @@ def uploadImage(image):
     data = {'key': IMAGE_UPLOAD_TOKEN, 'action': 'upload', 'source': image}
     r = requests.post(IMAGE_UPLOAD_URL, data=data)
     return r.json()['image']
+
+
+# uploading image and send to the messenger
+def sendMessage(admin_mid, image, m_name=None):
+    if not admin_mid:
+        print("\033[1;33mFaild to send message, No messenger ID found.\033[0;0m")
+        return
+    print('Sending message to admin...')
+    img_str = base64.b64encode(image).decode()
+    uploaded_image = uploadImage(img_str)
+    if m_name:
+        resp = MessageTemplate(admin_mid).generic(title=m_name,
+                                                  subtitle="Authorized member",
+                                                  image_url=uploaded_image.get(
+                                                      "url"),
+                                                  buttons=[{'title': 'OK', 'payload': "OK"}])
+    else:
+        resp = MessageTemplate(admin_mid).generic(title="Do you know?",
+                                                  subtitle="An unknown person detected at your doorstep!",
+                                                  image_url=uploaded_image.get(
+                                                      "url"),
+                                                  buttons=[{'title': 'Alarm', 'payload': "ALARM"}, {'title': 'Unlock', 'payload': 'UNLOCK'}])
+    print(resp)

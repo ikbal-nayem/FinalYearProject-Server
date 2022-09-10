@@ -33,9 +33,9 @@ class MessageTemplate():
                 "attachment": {
                     "type": "template",
                     "payload": {
-                            "template_type": "button",
-                            "text": text,
-                            "buttons": button_list
+                        "template_type": "button",
+                        "text": text,
+                        "buttons": button_list
                     }
                 }
             }
@@ -55,18 +55,19 @@ class MessageTemplate():
                 "attachment": {
                     "type": "template",
                     "payload": {
-                            "template_type": "generic",
-                            "elements": [{
-                                "title": title,
-                                "image_url": image_url,
-                                "subtitle": subtitle,
-                                "default_action": {
-                                    "type": "web_url",
-                                    "url": url or image_url,
-                                    "webview_height_ratio": "tall",
-                                },
-                                "buttons": button_list
-                            }]}
+                        "template_type": "generic",
+                        "elements": [{
+                            "title": title,
+                            "image_url": image_url,
+                            "subtitle": subtitle,
+                            "default_action": {
+                                "type": "web_url",
+                                "url": url or image_url,
+                                "webview_height_ratio": "tall",
+                            },
+                            "buttons": button_list
+                        }]
+                    }
                 }
             }
         }
