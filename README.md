@@ -1,4 +1,4 @@
-# Smart home security server script
+# RESIDENCE SECURITY server script
 
 python --version ```3.10.4```
 
