@@ -2,17 +2,13 @@ import json
 import math
 import threading
 import base64
-from apps import db
-from flask_login import current_user
 from CONF import MIN_CONFIDENCE_LEVEL
-from apps.messenger import MessageTemplate
 from algo.Recognition import Recognizer
 from apps.authentication.models import Users
 from .models import Members
 from .service import setEntryLog
-from .util import uploadImage, sendMessage
+from .util import sendMessage
 
-import apps.command_listener
 
 print('Loading model...')
 recognizer = Recognizer()

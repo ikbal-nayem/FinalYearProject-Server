@@ -94,12 +94,12 @@ def logout():
 
 @login_manager.unauthorized_handler
 def unauthorized_handler():
-    return render_template('home/page-403.html'), 403
+    return "<h2>Access denied.</h2>", 403
 
 
 @blueprint.errorhandler(403)
 def access_forbidden(error):
-    return render_template('home/page-403.html'), 403
+    return "<h2>Access denied.</h2>", 403
 
 
 @blueprint.errorhandler(404)

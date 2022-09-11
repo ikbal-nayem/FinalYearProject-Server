@@ -2,6 +2,8 @@ import os
 import requests
 import shutil
 import zipfile
+from apps.messenger import MessageTemplate
+from apps.utils import ColorText
 from CONF import DATASET_PATH, IMAGE_UPLOAD_URL, IMAGE_UPLOAD_TOKEN
 
 dataset_path = os.path.join(os.getcwd(), DATASET_PATH)
@@ -40,21 +42,23 @@ def uploadImage(image):
 # uploading image and send to the messenger
 def sendMessage(admin_mid, image, m_name=None):
     if not admin_mid:
-        print("\033[1;33mFaild to send message, No messenger ID found.\033[0;0m")
+        print(ColorText.FAIL +
+              "Faild to send message, No messenger ID found."+ColorText.ENDC)
         return
     print('Sending message to admin...')
     img_str = base64.b64encode(image).decode()
     uploaded_image = uploadImage(img_str)
+    template = MessageTemplate(admin_mid)
     if m_name:
-        resp = MessageTemplate(admin_mid).generic(title=m_name,
-                                                  subtitle="Authorized member",
-                                                  image_url=uploaded_image.get(
-                                                      "url"),
-                                                  buttons=[{'title': 'OK', 'payload': "OK"}])
+        resp = template.generic(title=m_name,
+                                subtitle="Authorized member",
+                                image_url=uploaded_image.get(
+                                    "url"),
+                                buttons=[{'title': 'OK', 'payload': "OK"}])
     else:
-        resp = MessageTemplate(admin_mid).generic(title="Do you know?",
-                                                  subtitle="An unknown person detected at your doorstep!",
-                                                  image_url=uploaded_image.get(
-                                                      "url"),
-                                                  buttons=[{'title': 'Alarm', 'payload': "ALARM"}, {'title': 'Unlock', 'payload': 'UNLOCK'}])
+        resp = template.generic(title="Do you know?",
+                                subtitle="An unknown person detected at your doorstep!",
+                                image_url=uploaded_image.get(
+                                    "url"),
+                                buttons=[{'title': 'Alarm', 'payload': "ALARM"}, {'title': 'Unlock', 'payload': 'UNLOCK'}])
     print(resp)

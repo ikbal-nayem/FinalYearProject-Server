@@ -31,7 +31,7 @@
                                 <thead class="thead-light">
                                 <tr>
                                     <th class="border-bottom" scope="col">Member</th>
-                                    <th class="border-bottom" scope="col">Confidance</th>
+                                    <th class="border-bottom" scope="col" align="center">Confidance</th>
                                     <th class="border-bottom" scope="col">Access type</th>
                                     <th class="border-bottom" scope="col">Entry time</th>
                                 </tr>
@@ -42,8 +42,12 @@
                                     <th class="text-gray-900" scope="row">
                                         {{ l.member }}
                                     </th>
-                                    <td class="text-gray-500">
-                                        {{ l.confidance_level }}
+                                    <td class="text-gray-500" align="center">
+                                        {% if l.confidance_level==-1 %}
+                                            <i class="fas fa-infinity"></i>
+                                        {% else %}
+                                            {{ l.confidance_level }}
+                                        {% endif %}
                                     </td>
                                     <td class="text-gray-500">
                                         {% if l.access_type == "Auto" %}
