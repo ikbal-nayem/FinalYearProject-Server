@@ -47,20 +47,21 @@
                 <div class="col-12 mb-4">
                     <div class="card shadow border-0 p-0">
                         <img class="card-img-top" src="/static/assets/img/technologies/raspberry-pi-zero-w-raspberry-pi-zero-w.png" alt="Card image cap">
-                        <div class="card-body">
+                        <div class="card-body text-center">
                             <h5 class="h4 text-center">
-                                Raspberry Pi Zero W
+                                Raspberry Pi
                             </h5>
-                            <p class="text-gray m-0" style="white-space:pre-wrap;">802.11 b/g/n wireless LAN
-Bluetooth 4.1
-Bluetooth Low Energy (BLE)
-1GHz, single-core CPU
-512MB RAM
-Mini HDMI port and micro USB On-The-Go (OTG) port
-Micro USB power
-HAT-compatible 40-pin header
-Composite video and reset headers
-CSI camera connector</p>
+                            <div class="alert alert-success d-none" role="alert" id="success-info"></div>
+                            <div class="alert alert-danger d-none" role="alert" id="danger-info"></div>
+                            {% if conf.rpi_ip %}
+                            <button class="btn btn-sm btn-secondary mt-3" id="configure">
+                                <i class="fas fa-tools"></i> Configure
+                            </button>
+                            {% else %}
+                            <button class="btn btn-sm btn-secondary mt-3" id="configure" disabled>
+                                <i class="fas fa-tools"></i> Configure
+                            </button>
+                            {% endif %}
                         </div>
                       </div>
                 </div>
@@ -73,18 +74,26 @@ CSI camera connector</p>
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
 <script>
-    $('#start_training').click(function(){
-        $('#start_training').addClass('disabled').text("Training ...")
+    $('#configure').click(function(){
+        $('#configure').addClass('disabled').text("Configuring ...")
         $.ajax({
-            url: '/train',
+            url: '/configure-rpi',
             type: 'GET',
             success: function(response){
-                $('#start_training').removeClass('disabled').text("Train again")
-                alert(response?.message)
+                if(response.success){
+                    $('#danger-info').addClass('d-none')
+                    $('#success-info').removeClass('d-none').text(response.message)
+                } else {
+                    $('#success-info').addClass('d-none')
+                    $('#danger-info').removeClass('d-none').text(response.message)
+                }
             },
             error: function(error){
-                alert("Something went wrong while traning your dataset.")
-                $('#start_training').removeClass('disabled').text("Train dataset")
+                $('#success-info').addClass('d-none')
+                $('#danger-info').removeClass('d-none').text("Something went wrong")
+            },
+            complete: function(){
+                $('#configure').removeClass('disabled').text("Configure")
             }
         });
     });

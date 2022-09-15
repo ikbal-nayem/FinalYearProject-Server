@@ -2,7 +2,6 @@ from apps.home import blueprint
 import sqlalchemy
 from flask import render_template, request, redirect, url_for
 from flask_login import login_required
-# from jinja2 import TemplateNotFound
 from algo.Training import startTraining, getTraningStatus
 from .recognition_service import checkRequestImage, reloadModel, isModelTrained
 from .forms import MemberInputForm
@@ -11,7 +10,8 @@ from .service import (
     getAllMembers,
     getMember, updateMember, deleteMember, updateProfile, getUseSettings,
     addOrUpdateSettings,
-    getEntryLog
+    getEntryLog,
+    configureRpi
 )
 
 
@@ -82,6 +82,12 @@ def settings():
     else:
         conf = getUseSettings()
     return render_template('home/settings.html', conf=conf, segment='settings')
+
+
+@blueprint.route('/configure-rpi', methods=['GET'])
+@login_required
+def configureRequest():
+    return configureRpi()
 
 
 # Image processing routes

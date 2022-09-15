@@ -1,4 +1,6 @@
+from flask import jsonify
 from apps import db
+import requests
 from sqlalchemy import func
 from datetime import date
 from flask_login import current_user
@@ -56,6 +58,19 @@ def updateProfile(request):
 
 def getUseSettings():
     return Configuration.query.filter_by(id=current_user.id).first()
+
+
+def configureRpi():
+    config = Configuration.query.filter_by(id=current_user.id).first()
+    if config and config.rpi_ip:
+        req_data = {"server_url": f"http://{current_ip}:5000/recognize",
+                    "user_id": current_user.id}
+        res = requests.post(f"http://{config.rpi_ip}:5001/configure",
+                            json=req_data)
+        if res.status_code == 200:
+            return res.json()
+        return jsonify({"success": False, "message": "Something went wrong configuring your device"})
+    return jsonify({"success": False, "message": "Please provide configuration first"})
 
 
 def addOrUpdateSettings(request):
