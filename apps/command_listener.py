@@ -1,4 +1,5 @@
 import socketio
+import requests
 from datetime import datetime
 from sqlalchemy import create_engine
 from apps.utils import ColorText
@@ -31,12 +32,15 @@ def on_command(data):
         f"select id from Users where m_id={sender_id}").first()
     if admin and len(admin):
         msgTemplate.text("Command has been received :D")
+        rpi = conn.exec_driver_sql(
+            f"select rpi_ip from Configuration where user_id={admin[0]}").first()
         if command == 'UNLOCK':
             conn.exec_driver_sql(
                 f"INSERT INTO EntryLog (user_id, entry_time, confidance_level, member, access_type) VALUES ({admin[0]}, '{datetime.now()}', {-1}, 'Unknown', 'Command')")
             # Do something after save the log
+            requests.get(f"http://{rpi[0]}:5001/command/OPEN")
         elif command == 'ALARM':
-            pass
+            requests.get(f"http://{rpi[0]}:5001/command/ALARM")
     else:
         print(ColorText.UNDERLINE+"No admin found!"+ColorText.ENDC)
         msgTemplate.text("Could not find your account :(")
