@@ -1,7 +1,5 @@
-import json
 import math
 import threading
-import base64
 from CONF import MIN_CONFIDENCE_LEVEL
 from algo.Recognition import Recognizer
 from apps.authentication.models import Users

@@ -1,4 +1,5 @@
 import os
+import base64
 import requests
 import shutil
 import zipfile

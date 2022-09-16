@@ -34,6 +34,7 @@ def on_command(data):
         msgTemplate.text("Command has been received :D")
         rpi = conn.exec_driver_sql(
             f"select rpi_ip from Configuration where user_id={admin[0]}").first()
+        print(f"Sending command to: http://{rpi[0]}:5001")
         if command == 'UNLOCK':
             conn.exec_driver_sql(
                 f"INSERT INTO EntryLog (user_id, entry_time, confidance_level, member, access_type) VALUES ({admin[0]}, '{datetime.now()}', {-1}, 'Unknown', 'Command')")
