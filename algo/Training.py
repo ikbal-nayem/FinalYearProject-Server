@@ -7,6 +7,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn import metrics
 from algo.face_recognition import preprocessing, FaceFeaturesExtractor, FaceRecogniser
 from CONF import PRETRAINED_MODEL_PATH, DATASET_PATH, MODEL_PATH
+from apps.utils import ColorText
 
 
 trning_status = {
@@ -34,15 +35,15 @@ def dataset_to_embeddings(dataset, features_extractor):
     for img_path, label in dataset.samples:
         trning_status['current_traning'] = dataset.classes[label]
         trning_status['total_traninged'] += 1
-        print(f'[Training] {img_path}')
+        print(f'[{ColorText.OKCYAN}Training{ColorText.ENDC}] {img_path}')
         _, embedding = features_extractor(
             transform(Image.open(img_path).convert('RGB')))
         if embedding is None:
-            print("Could not find face on {}".format(img_path))
+            print(f"Could not find face on {img_path}")
             continue
         if embedding.shape[0] > 1:
-            print("Multiple faces detected for {}, taking one with highest probability".format(
-                img_path))
+            print(
+                f"Multiple faces detected for {img_path}, taking one with highest probability")
             embedding = embedding[0, :]
         embeddings.append(embedding.flatten())
         labels.append(label)
@@ -84,7 +85,7 @@ def startTraining():
     print(metrics.classification_report(labels, clf.predict(
         embeddings), target_names=list(target_names)))
 
-    if not os.path.isdir(PRETRAINED_MODEL_PATH.split('/')[-2]):
+    if not os.path.isdir(MODEL_PATH):
         os.mkdir(MODEL_PATH)
     joblib.dump(FaceRecogniser(features_extractor, clf,
                 idx_to_class), PRETRAINED_MODEL_PATH)

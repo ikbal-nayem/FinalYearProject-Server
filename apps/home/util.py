@@ -1,11 +1,10 @@
 import os
-import base64
 import requests
 import shutil
 import zipfile
 from apps.messenger import MessageTemplate
 from apps.utils import ColorText
-from CONF import DATASET_PATH, IMAGE_UPLOAD_URL, IMAGE_UPLOAD_TOKEN
+from CONF import DATASET_PATH, IMAGE_UPLOAD_TOKEN_2, IMAGE_UPLOAD_API_URL
 
 dataset_path = os.path.join(os.getcwd(), DATASET_PATH)
 
@@ -35,9 +34,12 @@ def deleteDataset(id):
 
 
 def uploadImage(image):
-    data = {'key': IMAGE_UPLOAD_TOKEN, 'action': 'upload', 'source': image}
-    r = requests.post(IMAGE_UPLOAD_URL, data=data)
-    return r.json()['image']
+    # data = {'key': IMAGE_UPLOAD_TOKEN, 'action': 'upload', 'source': image}
+    data = {'key': IMAGE_UPLOAD_TOKEN_2}
+    files = {'media': image}
+    resp = requests.post(IMAGE_UPLOAD_API_URL, data=data, files=files).json()
+    # return r.json()['image']
+    return {'url': resp["data"]["media"]}
 
 
 # uploading image and send to the messenger
@@ -47,8 +49,8 @@ def sendMessage(admin_mid, image, m_name=None):
               "Faild to send message, No messenger ID found."+ColorText.ENDC)
         return
     print('Sending message to admin...')
-    img_str = base64.b64encode(image).decode()
-    uploaded_image = uploadImage(img_str)
+    # img_str = base64.b64encode(image).decode()
+    uploaded_image = uploadImage(image)
     template = MessageTemplate(admin_mid)
     if m_name:
         resp = template.generic(title=m_name,
