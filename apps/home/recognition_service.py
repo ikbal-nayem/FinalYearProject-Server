@@ -31,6 +31,7 @@ def checkRequestImage(request):
 
     user_id = None
     image = None
+    notify_admin = False
 
     if request.is_json:
         url = request.get_json().get('url', False)

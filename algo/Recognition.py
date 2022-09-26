@@ -9,10 +9,6 @@ from CONF import PRETRAINED_MODEL_PATH
 
 class Recognizer():
     def __init__(self):
-        # firebase = pyrebase.initialize_app(firebaseConfig)
-        # storage = firebase.storage()
-        # url = storage.child('model/face_recogniser.pkl').get_url(store_token)
-        # self.face_recogniser = joblib.load(urlopen(url))
         self.loadModel()
         self.preprocess = ExifOrientationNormalize()
 
