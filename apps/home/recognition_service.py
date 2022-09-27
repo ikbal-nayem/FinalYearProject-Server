@@ -32,6 +32,7 @@ def checkRequestImage(request):
     user_id = None
     image = None
     notify_admin = False
+    una = False
 
     if request.is_json:
         url = request.get_json().get('url', False)
@@ -48,6 +49,7 @@ def checkRequestImage(request):
         img = request.files.get('image', False)
         user_id = request.form.get('user_id', False)
         notify_admin = request.form.get('notify_admin', False)
+        una = request.form.get('una', False)
         if not img:
             # No image file found
             return ({'success': False, 'message': "Image file wasn't provided into 'image'"})
@@ -57,7 +59,7 @@ def checkRequestImage(request):
     if faces:
         big_face = findBigFace(faces)
         admin = Users.query.filter_by(id=user_id).first()
-        if big_face['top_prediction'].get('confidence') >= MIN_CONFIDENCE_LEVEL:
+        if big_face['top_prediction'].get('confidence') >= MIN_CONFIDENCE_LEVEL and una != "True":
             # If authorized member found
             member = Members.query.filter_by(
                 id=big_face['top_prediction'].get('label')).first()
